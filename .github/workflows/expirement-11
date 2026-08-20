@@ -1,0 +1,28 @@
+name: CI/CD with Slack Notification
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Application
+        run: echo "Building application..."
+
+      - name: Deploy Application
+        run: echo "Deploying application..."
+
+      - name: Slack Notification
+        if: always()
+        run: |
+          curl -X POST \
+          -H 'Content-type: application/json' \
+          --data '{"text":"CI/CD Pipeline completed. Check GitHub Actions for execution details."}' \
+          "${{ secrets.SLACK_WEBHOOK_URL }}"
